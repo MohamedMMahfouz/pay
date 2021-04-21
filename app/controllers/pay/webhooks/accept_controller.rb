@@ -1,10 +1,8 @@
 module Pay
   module Webhooks
     class AcceptController < Pay::ApplicationController
-      before_action :set_callback_charge, only: :charge_response
-      before_action :set_response_charge, only: :charge_callbacke
-      before_action :set_response_hmac, only: :charge_response
-      before_action :set_callback_hmac, only: :charge_callback
+      before_action :set_callback_charge, :set_response_hmac, only: :charge_response
+      before_action :set_response_charge, :set_callback_hmac, only: :charge_callback
 
       def charge_response
         if @charge.reflected?
