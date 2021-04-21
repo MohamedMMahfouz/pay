@@ -22,8 +22,7 @@ module Pay
       end
 
       def hmac_key
-        # ENV.fetch('ACCEPT_HMAC_SECRET')
-        "some key"
+        ENV.fetch('ACCEPT_HMAC_SECRET')
       end
     end
   end

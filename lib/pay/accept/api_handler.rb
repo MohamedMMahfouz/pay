@@ -4,9 +4,9 @@ require 'httparty'
 
 module Pay
   module Accept
-    class ApiHandler#AcceptApi formerly
+    class ApiHandler
       include HTTParty
-      base_uri "https://accept.paymobsolutions.com/api" #ENV.fetch('ACCEPT_BASE_URI')
+      base_uri ENV.fetch('ACCEPT_BASE_URI')
       headers 'Content-Type' => 'application/json'
       attr_reader :auth_token, :merchant_id, :amount, :order_id, :payment_key,
                   :user, :payment_reference
@@ -27,18 +27,18 @@ module Pay
 
       def authenticate
         response = self.class.post('/auth/tokens',body: { api_key: api_key }.to_json)
-        return unless response.code == 200 ##double check
+        return unless response.code == 201 ##double check
 
-        parsed_response.parsed_response
+        parsed_response = response.parsed_response
         @auth_token = parsed_response['token']
         @merchant_id = parsed_response['profile']['id']
       end
 
       def create_order
         response = self.class.post('/ecommerce/orders', body: order_body.to_json)
-        return unless response.code == 200 ##double check
+        return unless response.code == 201 ##double check
 
-        parsed_response.parsed_response
+        parsed_response = response.parsed_response
         @order_id = parsed_response['id']
       end
 
@@ -47,22 +47,20 @@ module Pay
           '/acceptance/payment_keys',
           body: request_payment_body.to_json
         )
-        return unless response.code == 200 ##double check
+        return unless response.code == 201 ##double check
 
-        parsed_response.parsed_response
+        parsed_response = response.parsed_response
         @payment_key = parsed_response['token']
       end
 
       private
 
       def api_key
-        # ENV.fetch('ACCEPT_API_KEY')
-        "some key"
+        ENV.fetch('ACCEPT_API_KEY')
       end
 
       def integration_id
-        # ENV.fetch('ACCEPT_INTEGRATION_ID')
-        "some id"
+        ENV.fetch('ACCEPT_INTEGRATION_ID')
       end
 
       def order_body

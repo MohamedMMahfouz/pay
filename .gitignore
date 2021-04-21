@@ -8,6 +8,16 @@ test/dummy/tmp/
 test/dummy/public/packs/
 test/dummy/public/packs-test/
 test/dummy/node_modules/
+
+spec/dummy/db/*.sqlite3
+spec/dummy/db/*.sqlite3-journal
+spec/dummy/log/*.log
+spec/dummy/tmp/
+spec/dummy/public/packs/
+spec/dummy/public/packs-test/
+spec/dummy/node_modules/
+
+
 .DS_Store
 .byebug_history
 

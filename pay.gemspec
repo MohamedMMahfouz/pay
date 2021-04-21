@@ -29,4 +29,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency "standardrb"
   s.add_development_dependency "vcr"
   s.add_development_dependency "webmock"
+  s.add_development_dependency "sqlite3"
+  s.add_development_dependency "rspec-rails"
+  s.add_development_dependency "factory_bot_rails"
 end
