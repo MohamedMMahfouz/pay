@@ -21,5 +21,5 @@ spec/dummy/node_modules/
 .DS_Store
 .byebug_history
 
-# Releases
-pay-*.gem
+# # Releases
+# pay-*.gem

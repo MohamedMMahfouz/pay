@@ -8,8 +8,8 @@ Gem::Specification.new do |s|
   s.name = "pay"
   s.version = Pay::VERSION
   s.authors = ["Jason Charnes", "Chris Oliver"]
-  s.email = ["jason@thecharnes.com", "excid3@gmail.com"]
-  s.homepage = "https://github.com/pay-rails/pay"
+  # s.email = ["jason@thecharnes.com", "excid3@gmail.com"]
+  # s.homepage = "https://github.com/pay-rails/pay"
   s.summary = "Payments engine for Ruby on Rails"
   s.description = "Stripe, Paddle, and Braintree payments for Ruby on Rails apps"
   s.license = "MIT"
