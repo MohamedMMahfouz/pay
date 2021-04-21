@@ -16,9 +16,17 @@ module Pay
     validates :amount, presence: true
     validates :processor, presence: true
     validates :processor_id, presence: true
-    validates :card_type, presence: true
+    validates :card_type, presence: true, unless: -> { processor == 'accept' }
 
     store_accessor :data, :paddle_receipt_url
+
+    enum status: {
+      no_status: 0,
+      pending: 1,
+      reflected: 2,
+      failed: 3,
+      completed: 4
+    }
 
     # Helpers for payment processors
     %w[braintree stripe paddle fake_processor].each do |processor_name|
@@ -52,6 +60,15 @@ module Pay
 
     def paypal?
       braintree? && card_type == "PayPal"
+    end
+
+    def self.generate_payment_reference
+      payment_reference = nil
+      loop do
+        payment_reference = SecureRandom.random_number(10**7)
+        break if find_by_payment_reference(payment_reference).nil?
+      end
+      payment_reference
     end
   end
 end

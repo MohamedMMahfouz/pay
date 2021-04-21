@@ -11,8 +11,11 @@ class CreatePayCharges < ActiveRecord::Migration[4.2]
       t.string :card_last4
       t.string :card_exp_month
       t.string :card_exp_year
-
+      t.integer :payment_reference
+      t.integer :status, default: 0
+      
       t.timestamps
     end
+    add_index(:pay_charges, :payment_reference, unique: true)
   end
 end
