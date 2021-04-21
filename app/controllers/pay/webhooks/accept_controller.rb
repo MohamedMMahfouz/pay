@@ -1,14 +1,11 @@
 module Pay
   module Webhooks
     class AcceptController < Pay::ApplicationController
-      # if Rails.application.config.action_controller.default_protect_from_forgery
-      #   skip_before_action :verify_authenticity_token
-      # end
       before_action :set_callback_charge, only: :charge_response
       before_action :set_response_charge, only: :charge_callbacke
       before_action :set_response_hmac, only: :charge_response
       before_action :set_callback_hmac, only: :charge_callback
-      
+
       def charge_response
         if @charge.reflected?
           @charge.completed! if @charge.present? && @hmac == params[:hmac] && charge_response_params[:success] == 'true'
@@ -18,7 +15,7 @@ module Pay
           redirect_to(payment_status_url(success: false))
         end
       end
-    
+
       def charge_callback
         return head(:ok) if @charge.reflected?
 
@@ -30,23 +27,8 @@ module Pay
           @charge.failed!
         end
       end
-      # def create
-      #   delegate_event(verified_event)
-      #   head :ok
-      # rescue ::Braintree::InvalidSignature
-      #   head :bad_request
-      # end
 
-      # private
-
-      # def delegate_event(event)
-      #   Pay::Webhooks.instrument type: "braintree.#{event.kind}", event: event
-      # end
-
-      # def verified_event
-      #   Pay.braintree_gateway.webhook_notification.parse(params[:bt_signature], params[:bt_payload])
-      # end
-      private 
+      private
 
       def charge_response_params
         params
