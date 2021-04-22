@@ -2,6 +2,8 @@
 
 Rails.application.routes.draw do
   resource :payment_method
+  get "webhooks/accept", to: "pay/webhooks/accept#charge_response"
+  post "webhooks/accept", to: "pay/webhooks/accept#charge_callback"
 
   namespace :braintree do
     resource :payment_method, namespace: :braintree

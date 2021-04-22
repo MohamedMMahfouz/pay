@@ -1,12 +1,12 @@
 module Pay
   module Webhooks
     class AcceptController < Pay::ApplicationController
-      before_action :set_callback_charge, :set_response_hmac, only: :charge_response
-      before_action :set_response_charge, :set_callback_hmac, only: :charge_callback
+      before_action :set_callback_charge, :set_callback_hmac, only: :charge_callback
+      before_action :set_response_charge, :set_response_hmac, only: :charge_response
 
       def charge_response
         if @charge.reflected?
-          @charge.completed! if @charge.present? && @hmac == params[:hmac] && charge_response_params[:success] == 'true'
+          @charge.completed! if @hmac == params[:hmac] && charge_response_params[:success] == 'true'
           redirect_to(payment_status_url(success: true))
         else
           @charge.failed!
@@ -17,7 +17,7 @@ module Pay
       def charge_callback
         return head(:ok) if @charge.reflected?
 
-        if @hmac == params[:hmac] && charge_callback_params[:success] == true
+        if @hmac == params[:hmac] && charge_callback_params[:success] == 'true'
           @charge.reflected!
           # result = Transaction::ReflectBalance.call(user: charge.user, transaction: charge)
           # charge.failed! unless result.success?
@@ -56,11 +56,11 @@ module Pay
       end
 
       def set_callback_charge
-        @charge = Pay::Charge.find_by_gateway_id(charge_callback_params.dig(:order, :id))
+        @charge = Pay::Charge.find_by!(processor_id: charge_callback_params.dig(:order, :id))
       end
 
       def set_response_charge
-        @charge = Pay::Charge.find_by_processor_id!(charge_response_params[:order])
+        @charge = Pay::Charge.find_by!(processor_id: charge_response_params[:order])
       end
 
       def set_response_hmac

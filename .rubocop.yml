@@ -21,3 +21,6 @@ SpecialGlobalVars:
 
 AmbiguousBlockAssociation:
   Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
