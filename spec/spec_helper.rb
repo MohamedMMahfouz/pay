@@ -20,8 +20,6 @@ require('support/vcr_setup')
 #   add_filter [
 #     %r{^/bin/},
 #     %r{^/lib/},
-#     %r{^*/controllers/authentication_engine/application_controller.rb},
-#     %r{^*/jobs/authentication_engine/application_job.rb},
 #     %r{^*/mailers/},
 #     %r{^*/models/},
 #     %r{^*/lib/},
