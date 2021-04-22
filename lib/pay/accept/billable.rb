@@ -39,7 +39,9 @@ module Pay
           processor: :accept,
           payment_reference: payment_key
         )
-        raise Pay::Accept::Error, error_messaage(charge) unless charge.save
+        return charge if charge.save
+
+        raise Pay::Accept::Error, error_messaage(charge)
       end
 
       def error_message(charge)
